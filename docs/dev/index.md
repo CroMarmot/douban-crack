@@ -10,7 +10,7 @@ pip3 install -e .
 
 ```sh
 hatch run tests:test
-hatch run tests:test -VV tests/unit/test_crack_html.py
+hatch run tests:test -vv tests/unit/test_crack_data.py::test_crack_data_v0_0_2
 ```
 
 ## Lint

@@ -3,12 +3,14 @@ import logging
 import os
 from typing import Any
 
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service as ChromeService
-from webdriver_manager.chrome import ChromeDriverManager
+fileabsdir = os.path.abspath(os.path.dirname(os.path.realpath(__file__)))
 
 
 def crack_data(data: str, driver_path: str = "") -> Any:
+    from selenium import webdriver
+    from selenium.webdriver.chrome.service import Service as ChromeService
+    from webdriver_manager.chrome import ChromeDriverManager
+
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--disable-gpu")
@@ -18,7 +20,6 @@ def crack_data(data: str, driver_path: str = "") -> Any:
         driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
 
     try:
-        fileabsdir = os.path.abspath(os.path.dirname(os.path.realpath(__file__)))
         url = f"file://{os.path.join(fileabsdir,'index.html')}"
         driver.get(url)
         res = driver.execute_script(f"return calc('${data}')")
@@ -35,3 +36,13 @@ def crack_data(data: str, driver_path: str = "") -> Any:
         logging.error("==================================== ERRORS ====================================")
         logging.exception(e)
         raise e
+
+
+def crack_data_v0_0_2(data: str) -> Any:
+    import execjs
+
+    # https://github.com/SergioJune/Spider-Crack-JS/blob/master/douban/douban.py
+    with open(os.path.join(fileabsdir, "main.js")) as f:
+        decrypt_js = f.read()
+    ctx = execjs.compile(decrypt_js)
+    return ctx.call("decrypt", data)

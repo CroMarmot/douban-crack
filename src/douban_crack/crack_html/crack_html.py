@@ -1,15 +1,12 @@
+import re
 from typing import Any, List
 
-from douban_crack.crack_data.crack_data import crack_data
+from douban_crack.crack_data.crack_data import crack_data_v0_0_2
 
 
-def crack_html(html: str, **kwargs) -> List[Any]:
+def crack_html(html: str) -> List[Any]:
     """
     list of parsed window.__DATA__
     """
-    lines = html.splitlines()
-    result = []
-    for line in lines:
-        if line.strip().startswith("window.__DATA__"):
-            result.append(crack_data(line.split('"')[1], **kwargs))
-    return result
+    data: str = re.search('window.__DATA__ = "([^"]+)"', html).group(1)  # 加密的数据
+    return crack_data_v0_0_2(data)

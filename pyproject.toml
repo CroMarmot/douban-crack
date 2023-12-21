@@ -22,7 +22,11 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
-dependencies = ["selenium>=4.16.0", "webdriver-manager>=4.0.1"]
+dependencies = [
+  "selenium>=4.16.0",
+  "webdriver-manager>=4.0.1",
+  "pyexecjs>=1.5.1",
+]
 
 [project.urls]
 Documentation = "https://github.com/CroMarmot/douban-crack#readme"
